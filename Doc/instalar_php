@@ -1,0 +1,38 @@
+# 1) Instalar PHP-FPM y MySQL driver
+sudo apt update
+sudo apt install -y php-fpm php-mysql
+
+# 2) Averiguar el socket de PHP-FPM (anotá la ruta exacta)
+ls /run/php/php*-fpm.sock
+# Ejemplo típico en Debian Bookworm: /run/php/php8.2-fpm.sock
+
+# 3) Configurar lighttpd para hablar con PHP-FPM (ajustá el socket si cambia)
+sudo bash -c 'cat > /etc/lighttpd/conf-available/15-fastcgi-php-fpm.conf' <<EOF
+fastcgi.server += ( ".php" =>
+  ((
+    "socket" => "/run/php/php8.2-fpm.sock",
+    "broken-scriptfilename" => "enable"
+  ))
+)
+EOF
+
+# 4) Habilitar fastcgi y nuestra conf de php-fpm
+sudo lighty-enable-mod fastcgi
+sudo ln -sf /etc/lighttpd/conf-available/15-fastcgi-php-fpm.conf /etc/lighttpd/conf-enabled/15-fastcgi-php-fpm.conf
+
+# (Si antes activaste fastcgi-php, desactívalo para no mezclar)
+sudo lighty-disable-mod fastcgi-php 2>/dev/null || true
+
+# 5) Asegurar index.php como índice
+sudo sed -i 's/index.lighttpd.html/index.php index.html/' /etc/lighttpd/lighttpd.conf
+
+# 6) Reiniciar servicios
+sudo systemctl restart php*-fpm
+sudo systemctl restart lighttpd
+
+---
+
+sudo mkdir -p /var/www/html/turnero
+# Copiá tus archivos de la app (pantalla.php, control.php, api/, etc.)
+sudo chown -R www-data:www-data /var/www/html/turnero
+sudo chmod -R 755 /var/www/html/turnero
