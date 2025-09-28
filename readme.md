@@ -229,3 +229,30 @@ curl -X POST "http://localhost/turnero/api/reset_queue.php?queue_id=1"
 - WebSockets/SSE para tiempo real.
 - Estadísticas y reportes.
 - Integración total con hardware (GPIO + impresora).
+
+
+---
+
+## 📂 Carpeta `/pi`
+
+Dentro de la carpeta `pi` se centralizan los scripts y servicios necesarios para que el sistema corra en Raspberry Pi.
+
+Estructura:
+
+```
+/pi
+├─ turnero_buttons.py         # Script principal GPIO (emite tickets, siguiente, atrás)
+├─ turnero-buttons.service    # Unidad systemd para habilitar el servicio al inicio
+├─ requirements.txt           # Dependencias Python (RPi.GPIO, requests, netcat)
+└─ README.md                  # Guía rápida de instalación en Raspberry Pi
+```
+
+### Instalación rápida en la Raspberry Pi
+
+```bash
+cd ~/turnero/pi
+sudo cp turnero-buttons.service /etc/systemd/system/
+sudo systemctl enable --now turnero-buttons
+```
+
+Esto asegura que los botones físicos funcionen automáticamente al iniciar la Raspberry Pi y queden integrados con el sistema de turnos.
