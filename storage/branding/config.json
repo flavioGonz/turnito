@@ -1,0 +1,7 @@
+{
+    "global_logo": "panaderia.png",
+    "per_queue": {
+        "1": "carniceria.png",
+        "2": "panaderia.png"
+    }
+}

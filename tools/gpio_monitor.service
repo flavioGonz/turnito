@@ -1,0 +1,29 @@
+# Example systemd unit for Turnero GPIO monitor
+# Copy this file to /etc/systemd/system/turnero-gpio-monitor.service on the Raspberry Pi
+# Then run: sudo systemctl daemon-reload && sudo systemctl enable --now turnero-gpio-monitor.service
+
+[Unit]
+Description=Turnero GPIO Monitor
+After=network.target
+
+[Service]
+# User to run the service. Use 'pi' or a dedicated user with gpio permissions.
+# If you want to run as root, remove User/Group lines.
+User=pi
+Group=pi
+
+# Working directory where gpio_test.py lives on the Pi
+WorkingDirectory=/var/www/html/turnero/tools
+
+# ExecStart: adjust the path to python3 and the script path & args as needed
+ExecStart=/usr/bin/python3 /var/www/html/turnero/tools/gpio_test.py monitor --pin 17 27 --mode bcm --report-url http://127.0.0.1/turnero/tools/gpio_report.php
+
+# Keep service running if it fails
+Restart=on-failure
+RestartSec=5
+
+# Ensure unbuffered output for logging
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
