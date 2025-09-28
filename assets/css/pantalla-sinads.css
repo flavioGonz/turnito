@@ -1,0 +1,57 @@
+/* ========== LAYOUT SIN ADS (todo centrado, sin ticker) ========== */
+
+body.screen.single{
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 32px);
+}
+
+.solo{
+  width: min(1200px, 92vw);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: calc(var(--gap) * 1.2);
+}
+
+.solo-header{
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.8vw, 20px);
+}
+.solo-header .area{
+  font-size: clamp(20px, 2.4vw, 34px);
+}
+
+.solo-main{
+  display: grid;
+  gap: calc(var(--gap) * 1.4);
+  align-content: start;
+}
+
+.solo .called{
+  justify-items: start;
+}
+.solo .called .num{ /* hereda de base */ }
+.solo .waiting{
+  grid-template-columns: 1fr 1fr;
+}
+
+.solo .waiting.compact{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+.solo .waitList{
+  padding: clamp(8px, 1.2vw, 12px);
+  border: 1px solid rgba(2,6,23,0.06);
+  border-radius: clamp(8px, 1vw, 14px);
+}
+
+/* En pantallas angostas, una sola columna */
+@media (max-width: 900px){
+  .solo .waiting,
+  .solo .waiting.compact{
+    grid-template-columns: 1fr;
+  }
+  :root{ --fs-called: clamp(48px, 16vw, 120px); }
+}

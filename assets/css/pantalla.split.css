@@ -1,0 +1,102 @@
+/* ========== LAYOUT SPLIT (left turnos / right publicidad) ========== */
+
+/* Dos paneles a pantalla completa, sin contenedores extra */
+.left,
+.right{
+  position: fixed;
+  top: 0; bottom: 0;
+}
+
+.left{
+  left: 0;
+  width: var(--left-w);
+  padding: clamp(12px, 2vw, 28px);
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* header / main / ticker */
+  gap: var(--gap);
+  background: var(--bg);
+}
+.right{
+  right: 0;
+  width: var(--right-w);
+  padding: clamp(12px, 2vw, 24px);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--gap);
+  background: #0b1220; /* fondo oscuro para contraste de ads */
+  color: #e5e7eb;
+}
+
+/* LEFT */
+.left-header{
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 18px);
+}
+.left-header .area{ color: var(--fg); }
+
+.left-main{
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: calc(var(--gap) * 1.2);
+}
+.left .waiting{
+  grid-template-columns: 1fr 1fr; /* dos columnas */
+}
+
+/* RIGHT (ads) */
+.right-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.right-header .headline{
+  font-family: "Oswald", "Montserrat", system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: clamp(16px, 2vw, 24px);
+}
+.ads{
+  display: grid;
+  gap: var(--gap);
+  grid-template-rows: 1fr 1fr;
+  align-content: stretch;
+}
+.slot{
+  border-radius: clamp(8px, 1vw, 14px);
+  overflow: hidden;
+  background: #111827;
+  display: grid;
+  place-items: center;
+}
+.slot img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Responsividad por aspect ratio ---------- */
+@media (max-aspect-ratio: 4/3){
+  :root{
+    --left-w: 64vw;
+    --right-w: 36vw;
+    --fs-called: clamp(48px, 12vw, 140px);
+  }
+  .left .waiting{ grid-template-columns: 1fr; } /* una columna si es muy “cuadrado” */
+}
+
+@media (min-aspect-ratio: 21/9){
+  :root{
+    --left-w: 62vw;
+    --right-w: 38vw;
+  }
+}
+
+/* Pequeños ajustes en baja resolución */
+@media (max-width: 800px){
+  :root{
+    --fs-called: clamp(44px, 16vw, 120px);
+    --fs-wait: clamp(14px, 3.5vw, 18px);
+  }
+}

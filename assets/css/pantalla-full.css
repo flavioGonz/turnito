@@ -1,0 +1,86 @@
+/* === Full-screen split, sin contenedores === */
+
+/* corregir 100vh móvil (usa --vh que ya seteás en JS) */
+html, body { height: calc(var(--vh, 1vh) * 100); margin: 0; background: #0e1113; color: #fff; }
+
+/* escenario sin escalas ni boxes */
+.stage { height: 100%; width: 100%; padding: 0; transform: none; }
+
+/* grid a pantalla completa: 2 columnas */
+.grid {
+  display: grid;
+  grid-template-columns: 64% 36%;
+  grid-template-rows: 100%;
+  width: 100%;
+  height: 100%;
+}
+
+/* sin tarjetas/boxes: todo transparente */
+.panel, .leftInner, .rightInner { background: transparent !important; box-shadow: none !important; border: 0 !important; }
+
+/* columnas con padding respirable */
+.panel.left  { padding: 3vh 3vw 2vh 4vw; }
+.panel.right { padding: 3vh 4vw 2vh 3vw; display: flex; flex-direction: column; }
+
+/* cabecera izquierda */
+.leftHeader {
+  font: 800 clamp(28px, 5vw, 64px) Oswald, sans-serif;
+  letter-spacing: .02em;
+  margin: 0 0 1.2vh 0;
+}
+
+/* bloque central número llamado */
+.centerArea { display: flex; flex-direction: column; height: 100%; }
+.turnCenter { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-top: 2vh; }
+
+.turnLabel {
+  font-weight: 700;
+  letter-spacing: .04em;
+  opacity: .8;
+  margin: 0 0 1vh 0;
+  font-size: clamp(14px, 2.2vw, 24px);
+}
+
+.turnoArea {
+  display: flex; align-items: center; justify-content: center; gap: 1rem;
+}
+
+.tens { font: 700 clamp(36px, 5vw, 90px) Oswald, sans-serif; opacity: .9; margin-right: .2em; }
+.num  { font: 900 clamp(90px, 16vw, 220px) Oswald, sans-serif; color: #f24b4b; line-height: .9; }
+
+.dot-indicator { width: 12px; height: 12px; background: #2ecc71; border-radius: 50%; }
+
+/* lista de espera, sin caja, solo tipografía y líneas sutiles */
+.waitWrap   { margin-top: 3vh; }
+.listCols   { display: grid; grid-template-columns: 1fr 1fr; gap: 2vw; }
+.colLabel   { font-weight: 700; color: #aeb7bf; margin-bottom: 0.6rem; font-size: clamp(12px, 1.4vw, 16px); letter-spacing: .06em; }
+.waitList   { list-style: none; margin: 0; padding: 0; }
+.waitItem   { padding: .5rem 0; border-bottom: 1px solid rgba(255,255,255,.08); font-weight: 600; font-size: clamp(14px, 1.8vw, 22px); }
+
+/* ticker oculto: este layout no usa marquesina */
+.ticker, .leftTicker { display: none !important; }
+
+/* panel derecho (publicidad) */
+.rightHeader { display: flex; align-items: center; justify-content: space-between; margin: 0 0 1vh 0; }
+.rightHeader .headline { font: 800 clamp(18px, 3vw, 36px) Oswald, sans-serif; }
+.adColumn { display: grid; grid-template-rows: 1fr 1fr; gap: 2vh; height: 100%; }
+.adSlot img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+
+/* modo sin-ads: deja izquierda a 100% */
+body.mode-sinads .panel.right { display: none !important; }
+body.mode-sinads .grid { grid-template-columns: 100%; }
+
+/* Aspect ratio helpers */
+body.aspect-9x16 .grid { grid-template-columns: 100%; }        /* en vertical, solo una columna usable */
+body.aspect-9x16 .panel.right { display: none !important; }     /* oculta ads en retrato */
+body.aspect-9x16 .panel.left { padding-right: 4vw; padding-left: 4vw; }
+
+body.aspect-16x9 .grid { grid-template-columns: 64% 36%; }      /* horizontal: split clásico */
+@media (max-width: 1200px) {
+  .grid { grid-template-columns: 62% 38%; }
+}
+
+/* accesibilidad: menos motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

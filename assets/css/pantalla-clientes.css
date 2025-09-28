@@ -1,0 +1,63 @@
+/* --- Estilos específicos pantalla clientes --- */
+.turnoWrap{
+  height:100%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap: 20px; text-align:center; padding: 32px;
+}
+.label{
+  font-size: clamp(14px, 1.6vw, 18px);
+  color: var(--muted); text-transform: uppercase; letter-spacing: .18em;
+}
+.turno{
+  font-variant-numeric: tabular-nums;
+  font-weight: 900; line-height: 1; letter-spacing: .02em;
+  font-size: clamp(72px, 18vw, 240px);
+  display:inline-block;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-shadow: 0 18px 48px rgba(14,165,233,.25);
+}
+.turno.flip .digits{ animation: flipIn .55s cubic-bezier(.2,.8,.2,1) }
+@keyframes flipIn{
+  0%{ transform: rotateX(70deg) scale(.96); opacity:.0; filter: blur(2px) }
+  60%{ transform: rotateX(-10deg) scale(1.02); opacity:1; filter: blur(0) }
+  100%{ transform: rotateX(0) scale(1); }
+}
+
+/* Contenedor de tablas (dos columnas) */
+.tables{
+  width:100%; max-width: 1100px;
+  display:grid; grid-template-columns: 1fr 1fr; gap:16px;
+  margin-top: 10px;
+}
+.tableCard{
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 16px; overflow:hidden;
+  box-shadow: var(--shadow-md);
+}
+.tableHead{
+  display:flex; align-items:center; gap:.6rem;
+  padding:.65rem .9rem; font-weight:800; letter-spacing:.16em;
+  text-transform:uppercase; font-size: clamp(12px, 1.2vw, 13px);
+  color:#0f172a;
+  background: linear-gradient(90deg, #e2f3ff, #e6fff8);
+}
+.tableHead .icon{ color:#0284c7 }
+
+table{ width:100%; border-collapse:collapse; font-variant-numeric: tabular-nums; }
+td{
+  padding:.6rem 1rem; text-align:center;
+  border-top:1px solid #eef2f7;
+  font-size: clamp(16px, 2.1vw, 22px);
+}
+tr:nth-child(even) td{ background:#fbfdff }
+tr.added td{ animation: pop .25s ease }
+@keyframes pop{ from{ transform: scale(.98); opacity:.6 } to{ transform: scale(1); opacity:1 } }
+
+/* ícono redondo dentro de celdas (opcional futuro) */
+.badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:22px; height:22px; border-radius:50%;
+  background:#ecfeff; color:#0284c7; font-size:12px; font-weight:700;
+}

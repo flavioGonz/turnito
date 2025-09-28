@@ -1,0 +1,161 @@
+/* ========== BASE COMÚN PARA TODAS LAS PANTALLAS ========== */
+:root{
+  /* Colores y espaciado */
+  --bg: #ffffff;
+  --fg: #0f172a;                 /* slate-900 */
+  --muted: #475569;              /* slate-600 */
+  --accent: #ef4444;             /* rojo para highlights */
+  --ok: #10b981;                 /* verde indicador */
+  --gap: clamp(8px, 1.5vw, 24px);
+
+  /* Proporciones de columnas en modo split (se puede overridear) */
+  --left-w: 58vw;
+  --right-w: 42vw;
+
+  /* Tamaños tipográficos fluidos */
+  --fs-area: clamp(18px, 2vw, 28px);
+  --fs-label: clamp(14px, 1.3vw, 18px);
+  --fs-wait: clamp(16px, 1.6vw, 22px);
+  --fs-called: clamp(56px, 10vw, 160px);
+
+  /* Marquee */
+  --marquee-duration: 18s;       /* se recalcula por JS si hay track largo */
+  --marquee-gap: 80px;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+}
+
+body.screen {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  overflow: hidden; /* Kiosco */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utilidades */
+img { display: block; max-width: 100%; height: auto; }
+ol { margin: 0; padding-left: 1.1em; }
+h1,h2,h3 { margin: 0; }
+
+/* ---------- Módulo Turno Llamado ---------- */
+.called { display: grid; gap: calc(var(--gap) * 0.5); align-items: center; }
+.called-label {
+  font-weight: 700;
+  font-size: var(--fs-label);
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.called-num {
+  display: inline-flex;
+  align-items: baseline;
+  gap: clamp(8px, 1vw, 16px);
+  line-height: 1;
+}
+.called-num .digits {
+  font-family: "Oswald", "Montserrat", system-ui, -apple-system, sans-serif;
+  font-weight: 800;
+  font-stretch: condensed;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.1em;
+}
+.called-num .tens { font-size: clamp(28px, 4vw, 42px); opacity: 0.9; }
+.called-num .num  { font-size: var(--fs-called); }
+
+/* Indicador “vivo” (parpadeo suave) */
+.dot-indicator{
+  width: clamp(8px, 1vw, 12px);
+  height: clamp(8px, 1vw, 12px);
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 0 0 rgba(16,185,129,0.6);
+  animation: pulse 2.2s infinite;
+  align-self: center;
+}
+@keyframes pulse{
+  0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
+  70%  { box-shadow: 0 0 0 16px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+
+/* ---------- Listas de espera ---------- */
+.waiting { display: grid; gap: var(--gap); }
+.waiting .col { display: grid; gap: calc(var(--gap) * 0.5); }
+.colLabel{
+  font-size: var(--fs-label);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.waitList{
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: clamp(6px, 0.8vw, 12px);
+}
+.waitList .waitItem,
+.waitList li{
+  font-size: var(--fs-wait);
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+/* ---------- Ticker (marquee) ---------- */
+.ticker{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-top: 1px solid rgba(2,6,23,0.08);
+  margin-top: var(--gap);
+}
+.ticker-inner{
+  display: flex;
+  gap: var(--marquee-gap);
+  white-space: nowrap;
+}
+.marquee-track{
+  display: inline-block;
+  padding-right: var(--marquee-gap);
+  will-change: transform;
+}
+.marquee-animate{
+  animation: marquee var(--marquee-duration) linear infinite;
+}
+.marquee-static{
+  display: inline-block;
+  padding: 12px 0;
+  font-size: clamp(14px, 1.4vw, 18px);
+  color: var(--muted);
+}
+@keyframes marquee{
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ---------- Cabeceras y logos ---------- */
+.area{
+  font-size: var(--fs-area);
+  letter-spacing: 0.06em;
+  font-weight: 800;
+}
+.logo{
+  height: clamp(24px, 4.2vw, 42px);
+  width: auto;
+}
+
+/* ---------- Modo accesible (reduce motion) ---------- */
+@media (prefers-reduced-motion: reduce){
+  .marquee-animate,
+  .dot-indicator{ animation: none !important; }
+}

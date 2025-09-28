@@ -1,0 +1,21 @@
+/* Mejora para navegadores modernos */
+@supports (display:grid){
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr minmax(360px, 0.36fr);
+    align-items: stretch;
+  }
+  body.mode-sinads .grid{ grid-template-columns: 1fr; }
+}
+
+/* Tipografías fluidas */
+.num      { font-size: clamp(72px, 16vw, 220px); }
+.tens     { font-size: clamp(36px, 6vw, 86px); }
+.leftHeader{ font-size: clamp(28px, 4.2vw, 60px); }
+.colLabel { font-size: clamp(12px, 1.6vw, 16px); }
+.waitItem { font-size: clamp(14px, 1.8vw, 20px); }
+
+/* Preferencia de reducir movimiento */
+@media (prefers-reduced-motion: reduce){
+  *{ animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,48 @@
+.turnoWrap{
+  height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:2vmin; text-align:center; padding:4vmin;
+}
+.label{font-size:clamp(18px,2.2vw,32px); color:var(--muted); text-transform:uppercase; letter-spacing:.18em}
+.turno{
+  font-variant-numeric: tabular-nums; font-weight:900; line-height:1; letter-spacing:.02em;
+  font-size:clamp(72px, 18vw, 240px);
+  display:inline-block; perspective:1200px; /* glow removed to avoid color bleeding on light backgrounds */
+}
+.turno.flip .digits{ animation: flipIn .75s cubic-bezier(.2,.8,.2,1) }
+.digits{
+  display:inline-block; transform-origin:center bottom;
+  /* Removed gradient text and clip to prevent halo on white backgrounds; use solid color instead */
+  background: none; -webkit-background-clip: initial; background-clip: initial; color:inherit; text-shadow:none;
+}
+@keyframes flipIn{
+  0%{ transform: rotateX(75deg) scale(.96); opacity:.0; filter:blur(3px) }
+  60%{ transform: rotateX(-12deg) scale(1.02); opacity:1; filter:blur(0) }
+  100%{ transform: rotateX(0) scale(1); }
+}
+
+/* Fila "Esperando" (chips) */
+.rowTitle{font-size:clamp(12px,1.4vw,16px); text-transform:uppercase; letter-spacing:.18em; opacity:.85; margin-top:.5rem}
+.waitRow{ display:flex; align-items:center; gap:.8vmin; justify-content:center; padding:0 2vmin; flex-wrap:wrap; }
+.chip{
+  display:inline-flex; align-items:center; gap:.5ch; padding:.5rem .9rem; border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+  color:#d9f6ff; font-weight:700; letter-spacing:.04em; font-size:clamp(12px,1.6vw,18px);
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,.25));
+  transform: translateY(6px); opacity:0; animation: chipIn .45s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.chip .dot{ width:.5rem; height:.5rem; border-radius:50%; background:#38bdf8; box-shadow:0 0 8px rgba(56,189,248,.8) }
+.chip .num{ font-variant-numeric: tabular-nums; }
+@keyframes chipIn{ from{ transform:translateY(12px) scale(.98); opacity:0 } to{ transform:translateY(0) scale(1); opacity:1 } }
+
+/* Ticker (marquee) */
+.ticker{
+  position:absolute; left:0; right:0; bottom:0; height:44px; overflow:hidden; z-index:2;
+  background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border-top:1px solid rgba(255,255,255,.12);
+}
+.ticker .inner{
+  position:absolute; white-space:nowrap; animation: marquee 28s linear infinite;
+  font-size:14px; color:#c8e9f2; padding:10px 0 0 10px; letter-spacing:.04em;
+}
+@keyframes marquee{ from{ transform:translateX(0) } to{ transform:translateX(-50%) } }

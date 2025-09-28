@@ -1,0 +1,15 @@
+/* Ajustes pensados para iPad 2 / Android viejos (sin Grid, menos sombras) */
+.leftInner, .rightInner{ box-shadow:none; }
+.num{ font-size: 150px; }
+.tens{ font-size: 64px; }
+.leftHeader{ font-size: 44px; }
+.waitItem{ font-size: 18px; }
+
+/* Evitar gaps grandes y efectos costosos */
+.dot-indicator{ box-shadow:none; }
+
+/* Forzar layout a una columna en portrait antiguo si hace falta */
+@media screen and (max-width: 1024px) and (orientation: portrait){
+  .panel.right{ display:none !important; }
+  .panel.left{ flex-basis:100%; }
+}
