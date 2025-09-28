@@ -1,0 +1,6 @@
+# Bloquear acceso directo a includes y storage
+RedirectMatch 403 ^/includes/.*$
+RedirectMatch 403 ^/storage/.*$
+
+# Si usás Apache en public/, asegurate de tener Indexes off
+Options -Indexes
